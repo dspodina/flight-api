@@ -1,3 +1,4 @@
+// import modules and dependencies
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -9,6 +10,8 @@ import cookieParser from 'cookie-parser';
 import logger from './middleware/logger.js';
 
 // import routes
+import flightRouter from "./routes/flights.js"
+import userRouter from "./routes/user.js"
 
 // load environment variables
 dotenv.config();
@@ -26,8 +29,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+
 // serve static files
 app.use(express.static(path.join(PATH, 'public')));
+
 
 // set view engine
 app.set('view engine', 'ejs');
@@ -37,6 +42,8 @@ app.set('views', path.join(PATH, 'views'));
 app.use(logger);
 
 // use routes
+app.use("/api", flightRouter);
+app.use("/api", userRouter)
 
 // handle 404
 app.use('*', (req, res) => {
